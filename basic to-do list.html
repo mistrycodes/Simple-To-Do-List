@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      background-color: grey;
+    }
+
+    .header {
+      text-align: center;
+    }
+
+    ul li.checked {
+      background: #888;
+      color: #fff;
+      text-decoration: line-through;
+    }
+  </style>
+
+  <body>
+    <h1 class="header">Todo list</h1>
+
+    <input id="input" type="text" />
+    <button class="addTodo" type="button">add todo</button>
+    <!--<button class="removeTodo" type="button"> remove todo </button> -->
+
+    <ul id="mylist"></ul>
+
+    <script>
+      // selects the element with the ID #input
+      let inputElement = document.querySelector("#input");
+      // selects the element with the class addTodo
+      let addTodoBtn = document.querySelector(".addTodo");
+      // selects the element with the ID #mylist
+      let ulElement = document.querySelector("#mylist");
+      //let removeTodobtn = document.querySelector(".removeTodo");
+
+      addTodoBtn.addEventListener("click", () => {
+        if (inputElement.value == "") {
+          alert("you need add something");
+        } else {
+          let li = document.createElement("li");
+          let p = document.createElement("p");
+          let removeBtn = document.createElement("button");
+          let editBtn = document.createElement("button");
+
+          p.textContent = inputElement.value; // returns a string
+          inputElement.value = "";
+          removeBtn.textContent = "remove todo";
+          editBtn.textContent = "edit";
+          //editInput.textContent("type", "text");
+
+          removeBtn.addEventListener("click", (event) => {
+            console.log(event.target.parentNode);
+            event.target.parentNode.remove();
+          });
+
+          let editInput;
+
+          editBtn.addEventListener("click", (event) => {
+            let li = event.target.parentNode;
+
+            if (event.target.textContent === "edit") {
+              editInput = document.createElement("input");
+              let p = li.firstChild;
+              let previousValue = p.textContent;
+
+              editInput.type = "text"; // change the input the text
+              editInput.value = previousValue;
+              p.replaceWith(editInput);
+              event.target.textContent = "save";
+            } else {
+              let newValue = editInput.value;
+              let p = document.createElement("p");
+              p.textContent = newValue;
+              editInput.replaceWith(p);
+
+              event.target.textContent = "edit";
+            }
+          });
+
+          li.appendChild(p); //child to the parent (li)
+          li.appendChild(removeBtn); //child to the parent (li)
+          li.appendChild(editBtn); // child to the parent (li)
+          ulElement.appendChild(li); // appending the list, which is also the parent.
+        }
+      });
+    </script>
+  </body>
+</html>
